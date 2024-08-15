@@ -41,4 +41,5 @@ admin.set_password('password')
 db.session.add(Admin)
 db.session.commit()
 ```
-7. Execute `flask run` in your terminal
+7. Execute `flask run` in your terminal.
+7.1. In case of missing libraries - install them with `pip install <library-name>`
