@@ -16,7 +16,7 @@ python -m venv venv
 4. Install PostgreSQL and create your own user.
 5. Add to project folder a file named secret.py with the following content,
 replacing the values in the file according to your PostgreSQL credentials:
-`
+```
 pg_user = "username" #This must be the name of the actual non-test database as well
 pg_pass = "password" #PSQL password
 pg_host = "localhost" #Host, do not change
@@ -25,7 +25,7 @@ pg_db = "designer" #DatabaseName
 key = f'postgresql://{pg_user}:{pg_pass}@{pg_host}/{pg_db}' #do not change
 flask_secret = 'value2' #generated with uuid.uuid4().hex
 jwt_secret = 'value1'
-`
+```
 6. Open flask cli with `flask shell` command in your terminal. 
 Paste the following
 `
