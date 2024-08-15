@@ -28,7 +28,7 @@ jwt_secret = 'value1'
 ```
 6. Open flask cli with `flask shell` command in your terminal. 
 Paste the following
-`
+```
 import db,User from models
 db.init_app(app)
 
@@ -40,5 +40,5 @@ admin.set_password('password')
 
 db.session.add(Admin)
 db.session.commit()
-`
+```
 7. Execute `flask run` in your terminal
