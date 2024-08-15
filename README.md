@@ -23,8 +23,8 @@ pg_host = "localhost" #Host, do not change
 pg_db = "designer" #DatabaseName
 
 key = f'postgresql://{pg_user}:{pg_pass}@{pg_host}/{pg_db}' #do not change
-flask_secret = 'value2' #generated with uuid.uuid4().hex
-jwt_secret = 'value1'
+flask_secret = 'value2' #Generate these values with uuid.uuid4().hex or any other generator. 
+jwt_secret = 'value1' #Both values are represented by a 32-char hexademical string
 ```
 6. Open flask cli with `flask shell` command in your terminal. 
 Paste the following
