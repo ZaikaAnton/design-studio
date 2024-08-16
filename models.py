@@ -9,7 +9,7 @@ import datetime
 
 
 db = SQLAlchemy()
-
+#test
 
 #User class implementation
 class User(db.Model):
