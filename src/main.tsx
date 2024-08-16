@@ -1,26 +1,29 @@
-
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { ThemeProvider } from 'styled-components'
-import {theme} from './theme'
+import { createRoot } from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import { theme } from "./theme";
+import Login from "./pages/Login/Login.tsx";
+import Register from "./pages/Registration/Registration.tsx";
 
 const router = createBrowserRouter([
   {
-    path: '/login',
+    path: "/login",
+    element: <Login />,
   },
   {
-    path: '/register',
+    path: "/register",
+    element: <Register />,
   },
   {
-    path: '/',
-    element: <App />
-  }
-])
+    path: "/",
+    element: <App />,
+  },
+]);
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <ThemeProvider theme={theme}>
-  <RouterProvider router={router} />
+    <RouterProvider router={router} />
   </ThemeProvider>
-)
+);

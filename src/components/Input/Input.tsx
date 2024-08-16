@@ -1,16 +1,16 @@
-import styled from 'styled-components';
-import { FC, useState } from 'react';
-import Label from '../Label/Label';
-import IconInput from '../IconInput/IconInput';
+import styled from "styled-components";
+import { FC, useState } from "react";
+import Label from "../Label/Label";
+import IconInput from "../IconInput/IconInput";
 
-interface InputProps {
+export interface InputProps {
   id: string;
   type: string; // Тип ввода: текст, пароль, телефон и т.д.
   placeholder: string; // Подсказка внутри поля
   name: string;
 }
 
-const Input: FC<InputProps> = ({ type = 'text', placeholder, name }) => {
+const Input: FC<InputProps> = ({ type = "text", placeholder, name }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -18,26 +18,34 @@ const Input: FC<InputProps> = ({ type = 'text', placeholder, name }) => {
   };
 
   // Определяем текущий тип инпута
-  const inputType = type === 'password' && isPasswordVisible ? 'text' : type;
+  const inputType = type === "password" && isPasswordVisible ? "text" : type;
 
   return (
     <>
-      <Label htmlFor={name}>{placeholder}</Label>
-      <ContainerInputIcon>
-        <StyledInput
-          type={inputType}
-          placeholder={placeholder}
-          name={name}
-        />
-        {type === 'password' && (
-          <IconInput onClick={togglePasswordVisibility} visible={isPasswordVisible} />
-        )}
-      </ContainerInputIcon>
+      <ContainerInput>
+        <Label htmlFor={name}>{placeholder}</Label>
+        <ContainerInputIcon>
+          <StyledInput type={inputType} placeholder={placeholder} name={name} />
+          {type === "password" && (
+            <IconInput
+              onClick={togglePasswordVisibility}
+              visible={isPasswordVisible}
+            />
+          )}
+        </ContainerInputIcon>
+      </ContainerInput>
     </>
   );
 };
 
 export default Input;
+
+const ContainerInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing(1)};
+  text-align: left;
+`;
 
 const ContainerInputIcon = styled.div`
   display: flex;
@@ -52,7 +60,7 @@ const StyledInput = styled.input`
   width: 100%;
   height: 100%;
   padding: ${({ theme }) => theme.spacing(1, 2)};
-  font-size: ${({ theme }) => theme.typography.bodyS};
+  font-size: ${({ theme }) => theme.typography.bodyM};
   border: 1px solid ${({ theme }) => theme.colors.Gray};
   border-radius: 20px;
   outline: none;
@@ -63,7 +71,7 @@ const StyledInput = styled.input`
 
   &:focus {
     border-color: ${({ theme }) => theme.colors.Primary60};
-    box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.3); 
+    box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.3);
   }
 
   &::placeholder {

@@ -212,7 +212,7 @@ export const theme: Theme = {
     `,
   },
   fonts: {
-    primary: "'Inconsolata', monospace",
+    primary: "'Nunito', sans-serif"
   },
 //   breakpoints: {
 //     ...BREAKPOINTS,
