@@ -1,8 +1,8 @@
 import requests
 
-data = {'username':'admin','password':'password'}
+data = {'username':'admin','password':'admin'}
 print(f"[Request][POST]: /authenticate, data={data}")
-r = requests.post('http://127.0.0.1:5000/authenticate', data={'username':'admin','password':'password'})
+r = requests.post('http://127.0.0.1:5000/authenticate', data=data)
 print(f'{r}\n{r.text}')
 
 
