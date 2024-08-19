@@ -38,8 +38,7 @@ def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     return User.query.filter_by(id=identity).one_or_none()
 
-	
-
+  
 @app.route("/api/authenticate", methods=["POST"])
 def authenticate():
     username = request.form.get("username", None)
