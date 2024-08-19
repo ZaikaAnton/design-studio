@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { FC } from "react";
+import { useState } from "react";
 
-// import { InputProps } from "../Input/Input";
 import Background from "../Background/Background";
 import Button from "../Button/Button";
 import Title from "../Title/Title";
@@ -14,6 +14,7 @@ interface FromAuthProp {
   buttonText: string;
   emailProps: InputProps;
   passwordProps: InputProps;
+  onSubmit: (username: string, password: string) => void;
 }
 
 const FormAuth: FC<FromAuthProp> = ({
@@ -21,19 +22,46 @@ const FormAuth: FC<FromAuthProp> = ({
   buttonText,
   emailProps,
   passwordProps,
+  onSubmit,
 }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError(null);
+
+    try {
+      onSubmit(username, password); // Вызов переданной функции
+      console.log(username, password);
+    } catch (error) {
+      setError("An unexpected error occurred");
+      console.log(error);
+    }
+  };
+
   return (
     <Background>
       <FormContainer>
-        <Wrapper>
+        <Form onSubmit={handleSubmit}>
           <LogoContainer>
             <Logo />
           </LogoContainer>
           <Title>{title}</Title>
-          <Input {...emailProps} />
-          <Input {...passwordProps} />
+          <Input
+            {...emailProps}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Input
+            {...passwordProps}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <Button>{buttonText}</Button>
-        </Wrapper>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+        </Form>
       </FormContainer>
     </Background>
   );
@@ -52,7 +80,7 @@ const FormContainer = styled.div`
   z-index: 1;
 `;
 
-const Wrapper = styled.form`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing(3)};
@@ -69,4 +97,8 @@ const LogoContainer = styled.div`
   top: 10px; /* Отступ сверху от границы формы */
   right: 10px; /* Отступ справа от границы формы */
   z-index: 2; /* Убедитесь, что логотип находится поверх других элементов */
+`;
+const ErrorMessage = styled.div`
+  color: red;
+  margin-top: 10px;
 `;

@@ -8,6 +8,8 @@ export interface InputProps {
   type: string; // Тип ввода: текст, пароль, телефон и т.д.
   placeholder: string; // Подсказка внутри поля
   name: string;
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input: FC<InputProps> = ({ type = "text", placeholder, name }) => {
