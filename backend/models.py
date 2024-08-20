@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.dialects.postgresql import Insert
+from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 import json
@@ -35,6 +36,22 @@ class User(db.Model):
         return f"User {self.username}"
 
 
+class Project(db.Model):
+    __tablename__ = 'projects'
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String, unique = True, nullable=False)
+
+
+
+
+class ProjectImages(db.Model):
+    __tablename = 'project_images'
+    id = db.Column(db.Integer, primary_key = True)
+    filename = db.Column(db.String, unique = True, nullable=False)
+    project_title = db.Column(db.String, db.ForeignKey('projects.title',ondelete='CASCADE'),nullable=False)
+    cover = db.Column(db.Boolean, default=False)
+
+    project = relationship('Project', backref='project_images', passive_deletes=True)
 
 if __name__ == '__main__':
     db.create_all()
