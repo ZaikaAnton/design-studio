@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { FC, useState } from "react";
+import { forwardRef, useState } from "react";
 import Label from "../Label/Label";
 import IconInput from "../IconInput/IconInput";
 
@@ -12,22 +12,31 @@ export interface InputProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: FC<InputProps> = ({ type = "text", placeholder, name }) => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+// Оборачиваем компонент Input в forwardRef для поддержки ref
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ id, type = "text", placeholder, name, value, onChange }, ref) => {
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
-  };
+    const togglePasswordVisibility = () => {
+      setIsPasswordVisible(!isPasswordVisible);
+    };
 
-  // Определяем текущий тип инпута
-  const inputType = type === "password" && isPasswordVisible ? "text" : type;
+    // Определяем текущий тип инпута
+    const inputType = type === "password" && isPasswordVisible ? "text" : type;
 
-  return (
-    <>
+    return (
       <ContainerInput>
         <Label htmlFor={name}>{placeholder}</Label>
         <ContainerInputIcon>
-          <StyledInput type={inputType} placeholder={placeholder} name={name} />
+          <StyledInput
+            id={id}
+            type={inputType}
+            placeholder={placeholder}
+            name={name}
+            value={value}
+            onChange={onChange}
+            ref={ref} // Передаем ref в input
+          />
           {type === "password" && (
             <IconInput
               onClick={togglePasswordVisibility}
@@ -36,9 +45,12 @@ const Input: FC<InputProps> = ({ type = "text", placeholder, name }) => {
           )}
         </ContainerInputIcon>
       </ContainerInput>
-    </>
-  );
-};
+    );
+  }
+);
+
+// Добавление displayName для отладки
+Input.displayName = "Input";
 
 export default Input;
 

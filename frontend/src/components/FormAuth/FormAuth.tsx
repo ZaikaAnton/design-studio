@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { FC } from "react";
-import { useState } from "react";
+import { useRef } from "react";
 
 import Background from "../Background/Background";
 import Button from "../Button/Button";
@@ -24,21 +24,15 @@ const FormAuth: FC<FromAuthProp> = ({
   passwordProps,
   onSubmit,
 }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setError(null);
+    const username = usernameRef.current?.value || "";
+    const password = passwordRef.current?.value || "";
 
-    try {
-      onSubmit(username, password); // Вызов переданной функции
-      console.log(username, password);
-    } catch (error) {
-      setError("An unexpected error occurred");
-      console.log(error);
-    }
+    onSubmit(username, password);
   };
 
   return (
@@ -49,18 +43,9 @@ const FormAuth: FC<FromAuthProp> = ({
             <Logo />
           </LogoContainer>
           <Title>{title}</Title>
-          <Input
-            {...emailProps}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <Input
-            {...passwordProps}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button>{buttonText}</Button>
-          {error && <ErrorMessage>{error}</ErrorMessage>}
+          <Input {...emailProps} ref={usernameRef} />
+          <Input {...passwordProps} ref={passwordRef} />
+          <Button type="submit">{buttonText}</Button>
         </Form>
       </FormContainer>
     </Background>
@@ -97,8 +82,4 @@ const LogoContainer = styled.div`
   top: 10px; /* Отступ сверху от границы формы */
   right: 10px; /* Отступ справа от границы формы */
   z-index: 2; /* Убедитесь, что логотип находится поверх других элементов */
-`;
-const ErrorMessage = styled.div`
-  color: red;
-  margin-top: 10px;
 `;

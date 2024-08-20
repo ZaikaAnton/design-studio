@@ -3,6 +3,7 @@ import { FC } from "react";
 
 interface ButtonProps {
   children: React.ReactNode;
+  type?: string;
 }
 
 const Button: FC<ButtonProps> = ({ children }) => {
