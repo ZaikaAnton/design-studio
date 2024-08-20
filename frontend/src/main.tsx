@@ -5,17 +5,17 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./theme";
 import Login from "./pages/Login/Login.tsx";
-import Register from "./pages/Registration/Registration.tsx";
+// import Register from "./pages/Registration/Registration.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
   },
-  {
-    path: "/register",
-    element: <Register />,
-  },
+  // {
+  //   path: "/register",
+  //   element: <Register />,
+  // },
   {
     path: "/",
     element: <App />,

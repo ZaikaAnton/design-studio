@@ -1,38 +1,27 @@
-import FormAuth from "../../components/FormAuth/FormAuth";
 import axios from "axios";
+import FormAuth from "../../components/FormAuth/FormAuth";
+import { API_URL } from "../../api/api";
 
 const Login = () => {
-  const handleSubmit = async (username: string, password: string) => {
+  const handleLogin = async (username: string, password: string) => {
+    console.log({ username, password });
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/authenticate",
-        {
-          username,
-          password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(`${API_URL}`, {
+        username,
+        password,
+      });
 
-      // Обработка успешного ответа
-      console.log("Login successful:", response.data);
-      // Сохранение токена или информации о пользователе при необходимости
-      // localStorage.setItem('token', response.data.token);
+      console.log("Response:", response.data);
+      // Здесь можно добавить логику для обработки успешного логина, например, перенаправление или сохранение токена
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        console.error("Login failed:", error.response.data.error);
-      } else {
-        console.error("An unexpected error occurred");
-      }
+      console.error("Error during login:", error);
     }
   };
+
   return (
     <FormAuth
       title="Страница логина"
-      buttonText="Войти"
+      buttonText="Войти"
       emailProps={{
         id: "email",
         type: "text",
@@ -45,7 +34,7 @@ const Login = () => {
         placeholder: "Пароль",
         name: "password",
       }}
-      onSubmit={handleSubmit}
+      onSubmit={handleLogin}
     />
   );
 };
