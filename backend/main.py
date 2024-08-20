@@ -11,7 +11,7 @@ import re
 #import uuid
 #from dateutil.relativedelta import relativedelta
 
-from models import db, User
+from models import db, User, Project, ProjectImages
 from secret import key, flask_secret, jwt_secret
 
 
@@ -41,9 +41,10 @@ def user_lookup_callback(_jwt_header, jwt_data):
   
 @app.route("/api/authenticate", methods=["POST"])
 def authenticate():
-    username = request.form.get("username", None)
-    password = request.form.get("password", None)
-
+    data = request.get_json()
+    username = data.get("username", None)
+    password = data.get("password", None)
+    print(username,password)
     user = User.query.filter_by(username=username).one_or_none()
     if not user or not user.check_password(password):
         return jsonify("Неверное имя пользователя или пароль!"), 401
@@ -51,4 +52,21 @@ def authenticate():
     # Notice that we are passing in the actual sqlalchemy user object here
     access_token = create_access_token(identity=user)
     return jsonify(access_token=access_token)
+
+@app.route("/api/projects", methods=["GET"])
+def projects():
+
+    projects_with_cover = db.session.query(Project.title, ProjectImages.filename).outerjoin(
+        ProjectImages,
+        (ProjectImages.project_title == Project.title) & (ProjectImages.cover == True)
+    ).all()
+
+    result = []
+    for project_title,cover_filename in projects_with_cover:
+        result.append({
+            'title':project_title,
+            'cover':cover_filename
+        })
+
+    return jsonify(result),200      
 
